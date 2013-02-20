@@ -1,0 +1,17 @@
+body {
+    background-image: url('/img/paper_fibers.png');
+}
+
+textarea {
+    width: 100%;
+}
+
+.dated {text-decoration:underline;
+        color: #0868ac;}
+
+.date-c16 {color: #43a2ca}
+.date-c17 {color: #7bccc4}
+.date-c18 {color: #a8ddb5}
+.date-c19 {color: #ccebc5}
+.date-c20 {color: #f0f9e8}
+
