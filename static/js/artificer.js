@@ -7,7 +7,7 @@ $('.date-analyze').click(function(){
         url: '/date',
         data: {text: escape(text)},
         success: function(data){
-            $('.date-analyzed').html(unescape(data.text));
+            $('.date-analyzed').html('<b>Max Year: ' + data.max_year + '</b></br>' + unescape(data.text));
         }
     });
 });

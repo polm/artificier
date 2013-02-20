@@ -21,7 +21,7 @@ def lemmatize(word,pos):
 
 def get_year(word,pos):
     """Look the normalized word up in the history list."""
-    types = {'VB':verbs, 'NN': nouns }
+    types = {'VB':verbs, 'NN': nouns, 'JJ': adjectives, 'RB': adverbs }
     return types[pos][word] if pos in types and word in types[pos] else None
 
 def classify(word,year):
@@ -41,6 +41,7 @@ def calculate_dates():
     print input
 
     output = ""
+    max_date = 0
     pps = input.split('\n')
     for pp in pps: 
         sents = nltk.tokenize.sent_tokenize(pp)
@@ -58,11 +59,13 @@ def calculate_dates():
                 canon = lemmatize(ww.strip('[^A-z]').lower(),pos)
                 year = get_year(canon,pos)
                 if year:
-                    print "%s\t%s" % (ww,year)
+                    #print "%s\t%s" % (ww,year)
+                    if int(year) > max_date: max_date = int(year)
                 output += ' ' if ww not in '.,;)!?:' else ''
                 output += classify(ww,year)
         output += '</p>\n\n'
-    return {'text':urllib.quote(output)}
+    print max_date
+    return {'text':urllib.quote(output), 'max_year': max_date}
 
 @route('/')
 def index():
@@ -75,5 +78,7 @@ def static(filename):
 lmz = nltk.stem.wordnet.WordNetLemmatizer()
 nouns = load_mapping('nn')
 verbs = load_mapping('vb')
+adjectives = load_mapping('jj')
+adverbs = load_mapping('rb')
 
 run(reloader=True,debug=True,port=2323,host='0.0.0.0',server='cherrypy')
