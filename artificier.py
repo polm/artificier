@@ -1,11 +1,13 @@
 #date stuff
 
+import os
 import urllib
 import re
 import nltk
 import json
 from bottle import route,post,run,request,static_file
 
+nltk.data.path += os.environ['NLTK_DATA'].split(':')
 
 def load_mapping(pos):
     return dict([(word,year) for (year,tab,word) in 
@@ -81,4 +83,6 @@ verbs = load_mapping('vb')
 adjectives = load_mapping('jj')
 adverbs = load_mapping('rb')
 
-run(reloader=True,debug=True,port=2323,host='0.0.0.0',server='cherrypy')
+port = int(os.environ['ARTIFICIER_PORT']) if 'ARTIFICIER_PORT' in os.environ else 2323
+
+run(reloader=True,debug=True,port=port,host='0.0.0.0',server='cherrypy')
